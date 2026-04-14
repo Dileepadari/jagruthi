@@ -1,0 +1,10 @@
+.env
+venv/
+__pycache__/
+*.pyc
+knowledge_base/chroma_db/
+tts/voices/*.onnx
+tts/voices/*.json
+admin/logs/
+*.wav
+*.log

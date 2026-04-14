@@ -1,0 +1,79 @@
+app:
+  name: "Jagruthi"
+  version: "1.0.0"
+  wake_word: "hey_jagruthi"          # replace with custom hey_jagruthi once trained
+  session_timeout: 30              # seconds of silence → reset session
+ 
+stt:
+  model: "small"                   # small | medium (use medium on RPi 5)
+  device: "cpu"
+  compute_type: "int8"
+  language: "auto"                 # auto-detect per utterance
+  beam_size: 5
+ 
+tts:
+  engine: "piper"
+  voices_dir: "tts/voices"
+  voices:
+    en: "en_US-lessac-medium"
+    hi: "hi_IN-hfc_female-medium"
+    te: "te_IN-*"
+  speaking_rate: 1.0
+ 
+llm:
+  primary: "groq"
+  fallback: "ollama"
+  groq:
+    model: "llama-3.3-70b-versatile"
+    emotional_model: "llama-3.3-70b-versatile"
+    max_tokens: 1024
+    temperature: 0.7
+  ollama:
+    model: "llama3.2:3b"
+    host: "http://localhost:11434"
+    max_tokens: 512
+ 
+rag:
+  chunk_size: 512
+  chunk_overlap: 50
+  retrieval_k: 5
+  mmr_diversity: 0.3
+  embeddings_model: "BAAI/bge-small-en-v1.5"
+  db_path: "knowledge_base/chroma_db"
+  collection_name: "jagruthi_kb"
+ 
+audio:
+  sample_rate: 16000
+  channels: 1
+  chunk_duration_ms: 80            # openWakeWord needs 80ms chunks
+  record_seconds: 8
+  silence_threshold: 300
+  silence_duration: 1.5
+ 
+roles:
+  default: "student"
+  options: ["student", "faculty", "staff"]
+ 
+emotional:
+  enabled: true
+  sensitivity: 0.65
+  crisis_escalation: true
+  counsellor_name: "Student Counsellor"
+  counsellor_contact: "+91-XXXXXXXXXX"
+  counsellor_room: "Admin Block, Room 12"
+ 
+scheduler:
+  enabled: true
+  min_interval_hours: 2
+  max_interval_hours: 6
+  active_hours_start: 8
+  active_hours_end: 22
+ 
+campus:
+  name: "IIIT Hyderabad"
+  city: "Hyderabad"
+ 
+logging:
+  level: "INFO"
+  dir: "admin/logs"
+  emotional_logging: false

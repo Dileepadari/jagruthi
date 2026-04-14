@@ -1,0 +1,15 @@
+[Unit]
+Description=Jagruthi Campus AI
+After=network.target sound.target
+ 
+[Service]
+ExecStart=/home/pi/Desktop/Jagruthi/venv/bin/python3 /home/pi/Desktop/Jagruthi/main.py
+WorkingDirectory=/home/pi/Desktop/Jagruthi
+User=pi
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+ 
+[Install]
+WantedBy=multi-user.target
