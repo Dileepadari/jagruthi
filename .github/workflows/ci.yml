@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.11 is what Raspberry Pi OS (bookworm) ships; 3.12 is what a
+        # developer machine is likely to have. The code uses `str | None`, so
+        # 3.10 is the real floor.
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      # Deliberately NOT requirements.txt: faster-whisper, chromadb,
+      # sentence-transformers and RPi.GPIO are hundreds of megabytes and will
+      # not install on a non-Pi runner. Everything under test here is pure
+      # logic that imports none of them.
+      - name: Install test dependencies
+        run: pip install pytest pytest-cov pyyaml
+
+      - name: Tests
+        run: pytest tests/ -v --cov=modules --cov=core --cov=llm --cov-report=term-missing --cov-fail-under=60
+
+  static:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install ruff pyyaml
+
+      # Every tracked module must at least parse and have resolvable imports
+      # within itself. Four test files were committed empty, so "it is in the
+      # repo" has not been a reliable signal here.
+      - name: Compile every module
+        run: python -m compileall -q $(git ls-files '*.py')
+
+      - name: Lint
+        run: ruff check --select=E9,F63,F7,F82,F401,F811,F841 .
+
+      - name: config.yaml parses and has the keys the code reads
+        run: python ops/check_config.py
+
+  hygiene:
+    name: Hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ops/hygiene.sh

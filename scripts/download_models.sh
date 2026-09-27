@@ -17,13 +17,13 @@ echo "=== Downloading Piper Voices ==="
 
 download_voice() {
   local path="$1"
-  local name=$(basename "$path")   # 👈 only filename
+  local name=$(basename "$path")   #  only filename
 
   local model_file="$VOICES_DIR/${name}.onnx"
   local config_file="$VOICES_DIR/${name}.onnx.json"
 
   if [ -f "$model_file" ] && [ -f "$config_file" ]; then
-    echo "✔ $name already exists"
+    echo "[ok] $name already exists"
     return 0
   fi
 
@@ -31,9 +31,9 @@ download_voice() {
 
   if curl -fL -o "$model_file" "$BASE_URL/$path.onnx" &&
      curl -fL -o "$config_file" "$BASE_URL/$path.onnx.json"; then
-    echo "✔ $name downloaded"
+    echo "[ok] $name downloaded"
   else
-    echo "✖ Failed to download $name"
+    echo "[fail] Failed to download $name"
     rm -f "$model_file" "$config_file"
     return 1
   fi
@@ -45,7 +45,7 @@ download_voice "hi/hi_IN/priyamvada/medium/hi_IN-priyamvada-medium"
 
 # Telugu (optional)
 download_voice "te/te_IN/padmavathi/medium/te_IN-padmavathi-medium" || \
-  echo "⚠ Telugu voice not available — using fallback"
+  echo "[warn] Telugu voice not available - using fallback"
 
 echo "=== Voices Ready ==="
 ls -lh "$VOICES_DIR"

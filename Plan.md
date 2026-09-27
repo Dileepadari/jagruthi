@@ -1,4 +1,4 @@
-# Jagruthi — Campus Conversational AI
+# Jagruthi - Campus Conversational AI
 ## Complete System Design, Architecture & Build Plan
 
 ---
@@ -25,7 +25,7 @@ A **campus-deployed, voice-first conversational AI kiosk** running on Raspberry 
 | Storage | 64GB+ microSD (A2 class) or SSD via USB | SSD strongly recommended |
 | Display (optional) | 7" HDMI touchscreen | For visual feedback |
 | Power | 5V 3A USB-C (RPi4) / 5V 5A (RPi5) | Stable supply is critical |
-| Enclosure | 3D printed kiosk shell | You can print this — nice touch |
+| Enclosure | 3D printed kiosk shell | You can print this - nice touch |
 
 ---
 
@@ -43,20 +43,20 @@ A **campus-deployed, voice-first conversational AI kiosk** running on Raspberry 
 - **Why not base?** Base has poor Telugu/Hindi accuracy
 - **Why not large?** Too slow on RPi
 - Multilingual detection: auto or forced
-- ~2–4 sec transcription on RPi 4 for 5s audio
+- ~2-4 sec transcription on RPi 4 for 5s audio
 
 ### 3.3 Language Model (LLM)
-**Two strategies — use both:**
+**Two strategies - use both:**
 
 | Strategy | Tool | When |
 |---|---|---|
-| Online (primary) | **Groq API** — free tier, Llama 3.1 70B | When internet available |
+| Online (primary) | **Groq API** - free tier, Llama 3.1 70B | When internet available |
 | Offline fallback | **Ollama** with `llama3.2:3b` or `phi3:mini` | When offline |
 
-Groq free tier: 14,400 requests/day, 6000 tokens/min — more than enough for a campus kiosk.
+Groq free tier: 14,400 requests/day, 6000 tokens/min - more than enough for a campus kiosk.
 
 ### 3.4 Embeddings
-**Tool:** `sentence-transformers` — `BAAI/bge-small-en-v1.5`
+**Tool:** `sentence-transformers` - `BAAI/bge-small-en-v1.5`
 - 33MB, runs entirely local
 - Good multilingual support
 - ~50ms per embedding on RPi 4
@@ -64,7 +64,7 @@ Groq free tier: 14,400 requests/day, 6000 tokens/min — more than enough for a 
 ### 3.5 Vector Database
 **Tool:** `ChromaDB` (local, persistent mode)
 - Zero cost, embedded into the Python process
-- Persists to disk — no server needed
+- Persists to disk - no server needed
 - Handles 100K+ document chunks fine
 
 ### 3.6 Text-to-Speech (TTS)
@@ -72,7 +72,7 @@ Groq free tier: 14,400 requests/day, 6000 tokens/min — more than enough for a 
 - Designed specifically for Raspberry Pi
 - Sub-100ms inference
 - Free voices for: English (en_US, en_GB), Hindi (hi_IN), Telugu (te_IN)
-- Natural prosody — not robotic
+- Natural prosody - not robotic
 
 **Backup for richer multilingual:** `Coqui XTTS v2` (if RPi 5 + SSD)
 - More natural but heavier (~1.8GB model)
@@ -139,7 +139,7 @@ Groq free tier: 14,400 requests/day, 6000 tokens/min — more than enough for a 
 ```
 jagruthi/
 │
-├── main.py                        # Entrypoint — starts all services
+├── main.py                        # Entrypoint - starts all services
 ├── config.yaml                    # Master config (models, paths, API keys)
 ├── requirements.txt
 ├── setup.sh                       # One-shot RPi setup script
@@ -247,7 +247,7 @@ jagruthi/
 |---|---|
 | Wake Word | "Hey Jagruthi" triggers active listening |
 | Multilingual STT | English, Hindi, Telugu via Whisper |
-| RAG-grounded Answers | All institutional answers cited from docs — no hallucination |
+| RAG-grounded Answers | All institutional answers cited from docs - no hallucination |
 | Role-Based Responses | Student, faculty, staff get different depth/tone |
 | Natural TTS | Piper voices, language-matched |
 | Offline Fallback | Ollama llama3.2:3b when no internet |
@@ -344,9 +344,9 @@ At Query Time:
 ```
 
 **Role-based retrieval:** Each document chunk has a `role_visibility` metadata field.
-- `["student", "faculty", "staff"]` — visible to all
-- `["faculty", "staff"]` — filtered from student queries
-- `["staff"]` — HR/admin docs only
+- `["student", "faculty", "staff"]` - visible to all
+- `["faculty", "staff"]` - filtered from student queries
+- `["staff"]` - HR/admin docs only
 
 ---
 
@@ -437,11 +437,11 @@ CHECKIN_MESSAGES = {
     "morning": ["Good morning! Ready for classes today?", "Subhodayam! Ela unnav?"],
     "exam_week": ["Hey, how's the prep going? Need help with anything?"],
     "evening": ["Long day? Want to talk?"],
-    "weekend": ["No classes today — what are you up to?"]
+    "weekend": ["No classes today - what are you up to?"]
 }
 
 def schedule_random_checkin():
-    # Random interval: 2–6 hours during active hours (8am–10pm)
+    # Random interval: 2-6 hours during active hours (8am-10pm)
     delay_minutes = random.randint(120, 360)
     scheduler.add_job(trigger_checkin, 'interval', minutes=delay_minutes)
 ```
@@ -505,27 +505,27 @@ sudo systemctl start jagruthi
 
 ## 16. Roadmap (Phases)
 
-### Phase 1 — Core (Week 1–2)
+### Phase 1 - Core (Week 1-2)
 - [ ] RPi OS setup, mic/speaker test
 - [ ] Whisper STT working
 - [ ] Piper TTS working (English)
 - [ ] Basic LangChain RAG with ChromaDB
 - [ ] Groq LLM integration
 
-### Phase 2 — Intelligence (Week 3–4)
+### Phase 2 - Intelligence (Week 3-4)
 - [ ] Document ingestion pipeline
 - [ ] Role-based filtering
 - [ ] Wake word detection
 - [ ] Hindi + Telugu TTS voices
 - [ ] Offline Ollama fallback
 
-### Phase 3 — Personality (Week 5–6)
+### Phase 3 - Personality (Week 5-6)
 - [ ] Emotional support chain
 - [ ] Session memory
 - [ ] Random check-in scheduler
 - [ ] Language auto-detection
 
-### Phase 4 — Deployment (Week 7–8)
+### Phase 4 - Deployment (Week 7-8)
 - [ ] Systemd service
 - [ ] Admin CLI for document updates
 - [ ] 3D printed kiosk enclosure
@@ -534,4 +534,4 @@ sudo systemctl start jagruthi
 
 ---
 
-*Jagruthi — "Awakening" in Telugu. The name says it all.*
+*Jagruthi - "Awakening" in Telugu. The name says it all.*
