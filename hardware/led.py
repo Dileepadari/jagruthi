@@ -16,7 +16,7 @@ try:
         GPIO.setup(p, GPIO.OUT, initial=GPIO.LOW)
     _gpio_available = True
 except Exception:
-    log.debug("RPi.GPIO not available — LED control disabled")
+    log.debug("RPi.GPIO not available - LED control disabled")
  
  
 class LED:

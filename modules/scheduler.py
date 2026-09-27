@@ -14,7 +14,7 @@ CHECKIN_MESSAGES = {
     ],
     "afternoon": [
         "Hey! How's the day going? Need help with anything?",
-        "Just checking in — any questions about campus today?",
+        "Just checking in - any questions about campus today?",
     ],
     "exam": [
         "Hey, exam season can be tough. How are you holding up?",

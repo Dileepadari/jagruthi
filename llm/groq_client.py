@@ -1,6 +1,5 @@
 import logging
 import os
-from typing import Optional
  
 log = logging.getLogger(__name__)
  

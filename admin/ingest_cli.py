@@ -17,6 +17,11 @@ from pathlib import Path
  
 import yaml
 from dotenv import load_dotenv
+
+# Repo-relative, not cwd-relative: the systemd unit sets WorkingDirectory
+# so production was fine, but running this from anywhere else looked in
+# the wrong place and failed mid-run.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
  
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -30,7 +35,7 @@ def main():
     parser.add_argument("--status", action="store_true", help="Show vectorstore stats")
     args = parser.parse_args()
  
-    with open("config.yaml") as f:
+    with open(_REPO_ROOT / "config.yaml") as f:
         config = yaml.safe_load(f)
  
     from rag.vectorstore import VectorStore
@@ -70,9 +75,8 @@ def main():
         return
  
     # Default: ingest all
-    raw_dir = Path("knowledge_base/raw")
+    raw_dir = _REPO_ROOT / "knowledge_base" / "raw"
     log.info("Ingesting all documents from %s ...", raw_dir)
-    from rag.ingestion import ingest_directory
     docs, metas, ids = [], [], []
     count = 0
  

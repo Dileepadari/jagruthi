@@ -11,7 +11,7 @@ class AudioPlayer:
     def play(self, audio: np.ndarray, sample_rate: int = SAMPLE_RATE):
         """Blocking plsayback.s"""
         if audio is None or len(audio) == 0:
-            log.warning("Empty audio — nothing to play")
+            log.warning("Empty audio - nothing to play")
             return
         try:
             log.info("Playing audio: %d samples at %d Hz", len(audio), sample_rate)

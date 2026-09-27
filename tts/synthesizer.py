@@ -9,10 +9,15 @@ import numpy as np
 import soundfile as sf
  
 from stt.language_detect import get_voice_for_lang
+
+# Repo-relative, not cwd-relative: the systemd unit sets WorkingDirectory
+# so production was fine, but running this from anywhere else looked in
+# the wrong place and failed mid-run.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
  
 log = logging.getLogger(__name__)
  
-VOICES_DIR = Path("tts/voices")
+VOICES_DIR = _REPO_ROOT / "tts" / "voices"
  
  
 class Synthesizer:
@@ -34,7 +39,7 @@ class Synthesizer:
                 self._piper = str(local)
                 log.info("Using local piper: %s", self._piper)
             else:
-                log.warning("Piper binary not found — TTS will use espeak fallback")
+                log.warning("Piper binary not found - TTS will use espeak fallback")
                 self._piper = None
  
     def _voice_path(self, lang: str) -> Path | None:

@@ -1,9 +1,14 @@
 import logging
 from pathlib import Path
+
+# Repo-relative, not cwd-relative: the systemd unit sets WorkingDirectory
+# so production was fine, but running this from anywhere else looked in
+# the wrong place and failed mid-run.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
  
 log = logging.getLogger(__name__)
  
-_SYSTEM_PROMPT_PATH = Path("llm/prompts/system_institutional.txt")
+_SYSTEM_PROMPT_PATH = _REPO_ROOT / "llm" / "prompts" / "system_institutional.txt"
  
  
 class RAGChain:
@@ -21,7 +26,6 @@ class RAGChain:
     def load(self):
         from rag.vectorstore import VectorStore
         from rag.retriever import Retriever
-        from rag.ingestion import ingest_directory
         from llm.router import LLMRouter
  
         self._vs  = VectorStore(self.config)
@@ -31,13 +35,13 @@ class RAGChain:
  
         # Auto-ingest knowledge_base/raw if vectorstore is empty
         if self._vs.count() == 0:
-            log.info("Vector store empty — ingesting knowledge_base/raw ...")
+            log.info("Vector store empty - ingesting knowledge_base/raw ...")
             self._ingest_all()
             log.info("Ingestion complete. Store has %d chunks.", self._vs.count())
  
     def _ingest_all(self):
         from rag.ingestion import ingest_directory
-        raw_dir = Path("knowledge_base/raw")
+        raw_dir = _REPO_ROOT / "knowledge_base" / "raw"
         docs, metas, ids = [], [], []
  
         for chunk, meta, uid in ingest_directory(raw_dir):

@@ -20,7 +20,7 @@ class VectorStore:
             name=self.collection_name,
             metadata={"hnsw:space": "cosine"},
         )
-        log.info("ChromaDB ready — collection '%s' has %d docs",
+        log.info("ChromaDB ready - collection '%s' has %d docs",
                  self.collection_name, self._col.count())
  
     def add(self, documents: list[str], metadatas: list[dict], ids: list[str]):

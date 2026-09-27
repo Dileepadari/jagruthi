@@ -8,6 +8,9 @@ import yaml
 from dotenv import load_dotenv
 from rich.console import Console
 from rich.panel import Panel
+
+# Repo-relative, not cwd-relative.
+_REPO_ROOT = Path(__file__).resolve().parent
  
 load_dotenv()
 console = Console()
@@ -26,7 +29,7 @@ log = logging.getLogger("jagruthi.main")
  
  
 def load_config() -> dict:
-    with open("config.yaml") as f:
+    with open(_REPO_ROOT / "config.yaml") as f:
         return yaml.safe_load(f)
  
  

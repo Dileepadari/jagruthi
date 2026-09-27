@@ -3,7 +3,7 @@ import numpy as np
  
 log = logging.getLogger(__name__)
  
-CHUNK_SAMPLES = 1280   # 80ms @ 16kHz — required by openWakeWord
+CHUNK_SAMPLES = 1280   # 80ms @ 16kHz - required by openWakeWord
  
  
 class WakeWordDetector:
@@ -23,7 +23,7 @@ class WakeWordDetector:
             )
             log.info("Wake word model loaded: %s", self._wake_word)
         except Exception as e:
-            log.warning("openWakeWord unavailable (%s) — using manual trigger mode", e)
+            log.warning("openWakeWord unavailable (%s) - using manual trigger mode", e)
             self._model = None
  
     def detected(self, audio_chunk: np.ndarray) -> bool:
