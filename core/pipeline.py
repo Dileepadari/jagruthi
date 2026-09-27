@@ -1,19 +1,21 @@
 import asyncio
 import logging
-import os
 from pathlib import Path
  
 from core.event_bus import bus
 from core.session import SessionManager
 from modules.role_manager import detect_role
 from modules.emotional_support import EmotionalSupport
-from modules.multilingual import detect_language_code
 from modules.feedback import log_interaction
  
 log = logging.getLogger(__name__)
 
-_FRIEND_PROMPT_PATH = Path("llm/prompts/system_friend.txt")
-_ROLE_PROMPT_PATH = Path("llm/prompts/system_rolebase.txt")
+# Resolved against the repository, not the current working directory. The
+# systemd unit sets WorkingDirectory so production was fine, but running
+# `python3 main.py` from anywhere else raised FileNotFoundError mid-turn.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_FRIEND_PROMPT_PATH = _REPO_ROOT / "llm" / "prompts" / "system_friend.txt"
+_ROLE_PROMPT_PATH = _REPO_ROOT / "llm" / "prompts" / "system_rolebase.txt"
 
 _RAG_INTENT_KEYWORDS = {
     "college", "campus", "university", "institute", "iiit", "history",
@@ -42,7 +44,7 @@ class Pipeline:
         log.info("Initialising pipeline components...")
         loop = asyncio.get_event_loop()
  
-        # Lazy imports — modules load their heavy models on first import
+        # Lazy imports - modules load their heavy models on first import
         from wake.detector import WakeWordDetector
         from stt.transcriber import Transcriber
         from tts.synthesizer import Synthesizer
@@ -79,7 +81,21 @@ class Pipeline:
             if self.wake.detected(audio_chunk):
                 log.info("Wake word detected!")
                 await bus.publish("wake_detected")
-                await self._handle_turn(capture)
+                # A turn must never take the kiosk down. There was no handler
+                # here at all, so one LLM timeout or one bad audio frame killed
+                # the process; systemd restarted it, which on a Pi means
+                # reloading Whisper, the embeddings model and Chroma before it
+                # can listen again. A student who had just been talking to it
+                # got silence for a minute or more.
+                try:
+                    await self._handle_turn(capture)
+                except Exception:
+                    log.exception("Turn failed; continuing to listen")
+                    try:
+                        from hardware.led import LED
+                        LED().ready()
+                    except Exception:
+                        pass
  
     async def _handle_turn(self, capture):
         """One full conversation turn: record → transcribe → respond → speak."""
