@@ -32,8 +32,13 @@ jobs:
       - name: Install test dependencies
         run: pip install pytest pytest-cov pyyaml
 
+      # Bare --cov, so the scope comes from .coveragerc, which lists the files
+      # the tests are actually for. Naming whole packages would count the
+      # pipeline, the Groq and Ollama clients and the hardware shims, none of
+      # which can be imported without the models and the Pi, so the number
+      # would say nothing and the floor would have to be useless to pass.
       - name: Tests
-        run: pytest tests/ -v --cov=modules --cov=core --cov=llm --cov-report=term-missing --cov-fail-under=60
+        run: pytest tests/ -v --cov --cov-report=term-missing --cov-fail-under=85
 
   static:
     name: Static checks

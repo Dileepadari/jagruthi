@@ -94,7 +94,7 @@ None of this makes it a mental health service. It is a kiosk that knows when to 
 
 ```bash
 pip install pytest pyyaml
-pytest tests/ -v            # 67 tests, no models or network needed
+pytest tests/ -v            # 73 tests, no models or network needed
 python3 ops/check_config.py
 ops/hygiene.sh
 ```

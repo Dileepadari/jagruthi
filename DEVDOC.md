@@ -95,7 +95,9 @@ pip install pytest pyyaml
 pytest tests/ -v
 ```
 
-67 tests, no models, no network, no Pi. They cover the crisis path, role detection, language normalisation, session state and LLM routing, all with fakes defined in `tests/conftest.py`.
+73 tests, no models, no network, no Pi. They cover the crisis path, role detection, language normalisation, session state and LLM routing, all with fakes defined in `tests/conftest.py`.
+
+Coverage is scoped by `.coveragerc` to the five files the tests are for, and `tests/test_coverage_scope.py` imports each of them. That guard exists because coverage.py only counts modules it has seen imported, so deleting a test file used to *raise* the reported percentage by removing its module from the denominator. With the import in place, deleting the crisis tests drops coverage from 93% to 62% and the floor catches it.
 
 What is *not* covered, and why: everything that needs a model. Whisper transcription, Piper synthesis, ChromaDB ingestion and retrieval, openWakeWord, and GPIO all require hundreds of megabytes of dependencies or the Pi itself. CI installs only `pytest` and `pyyaml` for that reason. `not_for_you.md` says so plainly rather than implying the suite means more than it does.
 

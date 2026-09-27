@@ -1,0 +1,23 @@
+# Coverage is scoped by file, not by module name, and deliberately.
+#
+# With --cov=modules.emotional_support, coverage only knows about a module that
+# was imported - so deleting the file's tests removed it from the denominator
+# and the total went UP. An include list makes coverage walk the tree, so a
+# module nobody imports is reported as 0% and the floor catches it.
+#
+# The files listed are the ones the tests are actually for. The rest of the
+# tree (the pipeline, the Groq and Ollama clients, RAG, STT, TTS, the hardware
+# shims) cannot be imported without the models and the Pi, so counting them
+# would say nothing.
+[run]
+branch = True
+include =
+    modules/emotional_support.py
+    modules/role_manager.py
+    modules/multilingual.py
+    core/session.py
+    llm/router.py
+
+[report]
+show_missing = True
+skip_covered = False
