@@ -4,12 +4,12 @@
   <source media="(prefers-color-scheme: dark)" srcset="./docs/assets/adk_dev_logo_light.png">
   <img src="./docs/assets/adk_dev_logo_dark.png" width="150" alt="ADK DEV" loading="lazy">
 </picture>
-
+<br>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/assets/jagruthi-logo-dark.png">
   <img src="./docs/assets/jagruthi-logo-light.png" width="720" alt="Jagruthi, a voice kiosk for the campus" loading="lazy">
 </picture>
-
+<br>
 <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" loading="lazy">
 <img alt="Raspberry Pi" src="https://img.shields.io/badge/Raspberry_Pi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" loading="lazy">
 <img alt="Whisper" src="https://img.shields.io/badge/faster--whisper-000000?style=for-the-badge&logo=openai&logoColor=white" loading="lazy">
