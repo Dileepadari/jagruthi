@@ -1,3 +1,31 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/assets/adk_dev_logo_light.png">
+  <img src="./docs/assets/adk_dev_logo_dark.png" width="150" alt="ADK DEV" loading="lazy">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/assets/jagruthi-logo-dark.png">
+  <img src="./docs/assets/jagruthi-logo-light.png" width="720" alt="Jagruthi, a voice kiosk for the campus" loading="lazy">
+</picture>
+
+<img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" loading="lazy">
+<img alt="Raspberry Pi" src="https://img.shields.io/badge/Raspberry_Pi-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white" loading="lazy">
+<img alt="Whisper" src="https://img.shields.io/badge/faster--whisper-000000?style=for-the-badge&logo=openai&logoColor=white" loading="lazy">
+<br>
+<img alt="ChromaDB" src="https://img.shields.io/badge/ChromaDB-FFB000?style=for-the-badge" loading="lazy">
+<img alt="Ollama" src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white" loading="lazy">
+<img alt="MIT License" src="https://img.shields.io/badge/License-MIT-3DA639?style=for-the-badge" loading="lazy">
+
+<br><br>
+
+**[Developer documentation](./DEVDOC.md)** &middot; [How a turn works](#how-a-turn-works) &middot; [The crisis path](#the-crisis-path) &middot; [Quick start](#quick-start)
+
+</div>
+
+---
+
 # Jagruthi - Campus Conversational AI Kiosk
 
 A voice kiosk for a college campus. Say the wake word, ask a question out loud, get an answer out loud. It answers institutional questions from documents you feed it (timetables, hostel rules, department directories) and it will also just talk to a student who is having a bad day.
