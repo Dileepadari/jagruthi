@@ -221,7 +221,6 @@ jagruthi/
 │
 ├── admin/
 │   ├── ingest_cli.py              # CLI to add new documents
-│   ├── dashboard.py               # Optional Flask admin dashboard
 │   └── logs/
 │       ├── conversations/
 │       └── errors/
