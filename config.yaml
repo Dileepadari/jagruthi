@@ -58,8 +58,8 @@ emotional:
   enabled: true
   sensitivity: 0.65
   crisis_escalation: true
-  counsellor_name: "Student Counsellor"
-  counsellor_contact: "+91-XXXXXXXXXX"
+  counsellor_name: "Dileep Adari"
+  counsellor_contact: "+91 7330701217"
   counsellor_room: "Admin Block, Room 12"
  
 scheduler:
